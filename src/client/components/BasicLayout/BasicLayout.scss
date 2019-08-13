@@ -1,0 +1,13 @@
+.BasicLayout {
+  height: 100vh;
+  &__header {
+    text-align: center;
+    h1 {
+      color: whitesmoke;
+    }
+  }
+
+  &__footer {
+    text-align: center;
+  }
+}
