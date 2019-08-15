@@ -5398,7 +5398,7 @@ rc-tabs@~9.6.4:
     resize-observer-polyfill "^1.5.1"
     warning "^3.0.0"
 
-rc-time-picker@^3.7.1, rc-time-picker@~3.7.1:
+rc-time-picker@~3.7.1:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/rc-time-picker/-/rc-time-picker-3.7.1.tgz#35a2c9cbd9758827c1ce57b8817db49472c95cc3"
   integrity sha512-ULiLnal/0erk9LrPLcDMroPnqL/LBDT4gz9MzQgtc2QN6KBAOgGihHXZempSQTYCg575oAl+BNX5e1teKWOrjw==
