@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './Main.scss';
 
 import BasicLayout from 'components/BasicLayout';
-import Counter from 'containers/Counter';
+import TimeSelector from 'containers/TimeSelector';
 
 class Main extends React.Component {
   constructor(props) {
@@ -15,8 +15,7 @@ class Main extends React.Component {
   render() {
     return (
       <BasicLayout>
-        테스트
-        <Counter/>
+        <TimeSelector/>
       </BasicLayout>
     );
   }
