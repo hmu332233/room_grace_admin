@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import styles from './Main.scss';
 
 import BasicLayout from 'components/BasicLayout';
+
+import RunningSwitch from 'containers/RunningSwitch';
 import TimeSelector from 'containers/TimeSelector';
 import TimeList from 'containers/TimeList';
 
@@ -16,6 +18,7 @@ class Main extends React.Component {
   render() {
     return (
       <BasicLayout>
+        <RunningSwitch />
         <TimeSelector/>
         <TimeList />
       </BasicLayout>

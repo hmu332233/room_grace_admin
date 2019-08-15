@@ -28,14 +28,9 @@ class TimeSelector extends React.Component {
     this.state.time && this.props.addTime(this.state.time);
   }
 
-  handleSwitchChange = () => {
-    this.props.toggleRunning();
-  }
-
   render() {
     return (
       <div className={styles.TimeSelector}>
-        <Switch checked={this.props.isRunning} onChange={this.handleSwitchChange} />
         <TimePicker
           format={'HH:mm'}
           defaultOpenValue={DEFAULT_TIME}
@@ -49,7 +44,6 @@ class TimeSelector extends React.Component {
 }
 
 const mapStateToProps = ({ timePicker }) => ({
-  isRunning: timePicker.isRunning,
 });
 
 const mapDispatchToProps = dispatch => ({
