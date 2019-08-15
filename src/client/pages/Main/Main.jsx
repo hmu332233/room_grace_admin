@@ -19,8 +19,8 @@ class Main extends React.Component {
     return (
       <BasicLayout>
         <RunningSwitch />
-        <TimeSelector/>
-        <TimeList />
+        <TimeSelector className={styles.Main__timeSelector}/>
+        <TimeList className={styles.Main__list}/>
       </BasicLayout>
     );
   }

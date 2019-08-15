@@ -6,8 +6,9 @@ import { connect } from 'react-redux';
 import { addTime, toggleRunning } from 'store/modules/timePicker';
 
 import moment from 'moment';
+import classnames from 'classnames';
 
-import { TimePicker, Switch , Button } from 'antd';
+import { TimePicker, Button } from 'antd';
 
 const DEFAULT_TIME = moment('00:00', 'HH:mm');
 
@@ -30,14 +31,15 @@ class TimeSelector extends React.Component {
 
   render() {
     return (
-      <div className={styles.TimeSelector}>
+      <div className={classnames(styles.TimeSelector, this.props.className)}>
         <TimePicker
+          className={styles.TimeSelector__picker}
           format={'HH:mm'}
           defaultOpenValue={DEFAULT_TIME}
           value={moment(this.state.time, 'HH:mm')}
           onChange={this.handleTimeChange}
         />
-        <Button type="primary" onClick={this.handleButtonClick}>추가</Button>
+        <Button className={styles.TimeSelector__button} type="primary" onClick={this.handleButtonClick}>추가</Button>
       </div>
     );
   }
