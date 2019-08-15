@@ -4,7 +4,7 @@ const TOGGLE_RUNNING = 'timePicker/TOGGLE_RUNNING';
 
 export const toggleRunning = () => ({ type: TOGGLE_RUNNING });
 export const addTime = time => ({ type: ADD, time });
-export const deleteTime = index => ({ type: DELETE, index });
+export const deleteTime = time => ({ type: DELETE, time });
 
 const initialState = {
   isRunning: false,
@@ -24,11 +24,9 @@ export default function timePicker(state = initialState, action) {
         times: [...state.times, action.time],
       };
     case DELETE:
-      const newTimes = [...state.times];
-      newTimes.splice(action.index, 1);
       return {
         ...state,
-        times: newTimes,
+        times: state.times.filter(time => time !== action.time),
       };
     default:
       return state;

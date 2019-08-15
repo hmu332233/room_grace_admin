@@ -5,21 +5,26 @@ import 'rc-time-picker/assets/index.css';
 import { connect } from 'react-redux';
 import { addTime, toggleRunning } from 'store/modules/timePicker';
 
+import moment from 'moment';
+
 import { TimePicker, Switch , Button } from 'antd';
+
+const DEFAULT_TIME = moment('00:00', 'HH:mm');
 
 class TimeSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: null
+      time: '00:00',
     };
   }
 
-  handleTimeChange = (value) => {
-    this.setState({ time: value });
+  handleTimeChange = value => {
+    this.setState({ time: value.format('HH:mm') });
   }
 
-  handleButtonClick = e => {
+  handleButtonClick = () => {
+    this.setState({ time: '00:00' });
     this.state.time && this.props.addTime(this.state.time);
   }
 
@@ -33,6 +38,8 @@ class TimeSelector extends React.Component {
         <Switch checked={this.props.isRunning} onChange={this.handleSwitchChange} />
         <TimePicker
           format={'HH:mm'}
+          defaultOpenValue={DEFAULT_TIME}
+          value={moment(this.state.time, 'HH:mm')}
           onChange={this.handleTimeChange}
         />
         <Button type="primary" onClick={this.handleButtonClick}>추가</Button>

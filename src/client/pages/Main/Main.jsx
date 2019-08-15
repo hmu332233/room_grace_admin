@@ -4,6 +4,7 @@ import styles from './Main.scss';
 
 import BasicLayout from 'components/BasicLayout';
 import TimeSelector from 'containers/TimeSelector';
+import TimeList from 'containers/TimeList';
 
 class Main extends React.Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class Main extends React.Component {
     return (
       <BasicLayout>
         <TimeSelector/>
+        <TimeList />
       </BasicLayout>
     );
   }
