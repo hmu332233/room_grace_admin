@@ -6,7 +6,11 @@
       color: whitesmoke;
     }
   }
-
+  &__content {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    height: 100%;
+  }
   &__footer {
     text-align: center;
   }

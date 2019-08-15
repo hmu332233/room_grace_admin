@@ -32,7 +32,11 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "prop-types": "^15.7.2",
+    "rc-time-picker": "^3.7.1",
     "react": ">=16.0.0",
-    "react-dom": ">=16.0.0"
+    "react-dom": ">=16.0.0",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.4",
+    "redux-actions": "^2.6.5"
   }
 }
