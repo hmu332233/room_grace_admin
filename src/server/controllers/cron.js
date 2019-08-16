@@ -1,14 +1,8 @@
-const cron = require('node-cron');
-let task = null;
+const scheduler = require('../utils/scheduler');
 
 exports.start = async (req, res, next) => {
   try {
-    task = cron.schedule('* * * * * *', () =>  {
-      console.log('task!');
-    }, {
-      scheduled: false
-    });
-    task.start();
+    scheduler.schedule(times, () => console.log('task'));
     res.json({ result: true });
   } catch (err) {
     next(err);
@@ -17,7 +11,7 @@ exports.start = async (req, res, next) => {
 
 exports.stop = async (req, res, next) => {
   try {
-    task.stop();
+    scheduler.destoryAll();
     res.json({ result: true });
   } catch (err) {
     next(err);

@@ -1,7 +1,19 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
+const config = require('./configs');
+
+mongoose.Promise = global.Promise;
+mongoose.connect(config.MONGO_DB, { useNewUrlParser: true });
+const db = mongoose.connection;
+db.once('open', () => {
+  console.log('DB connected!');
+});
+db.on('error', err => {
+  console.log('DB ERROR:', err);
+});
 
 NODE_ENV = 'development';
 
