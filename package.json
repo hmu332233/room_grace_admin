@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel src/client/index.html",
-    "build": "rm -rf build;parcel build src/client/index.html -d build"
+    "start": "parcel src/client/index.html --public-url ./assets",
+    "build": "rm -rf build;parcel build src/client/index.html -d build --public-url ./assets",
+    "start-server": "node src/server/app.js"
   },
   "repository": {
     "type": "git",
@@ -27,11 +28,13 @@
   },
   "dependencies": {
     "antd": "^3.21.4",
+    "body-parser": "^1.19.0",
     "classnames": "^2.2.6",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
+    "node-cron": "^2.0.3",
     "prop-types": "^15.7.2",
     "react": ">=16.0.0",
     "react-dom": ">=16.0.0",
