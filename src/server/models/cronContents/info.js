@@ -18,7 +18,7 @@ const schema = mongoose.Schema({
   },
 });
 
-const model = mongoose.model('cronContent', schema);
+const model = mongoose.model('cron_content', schema);
 
 module.exports = {
   db: { cronContents: model },
