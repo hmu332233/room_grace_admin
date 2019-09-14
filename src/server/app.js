@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 if (NODE_ENV === 'development') {
-  app.use('/assets', express.static('dist'));
+  app.use('/', express.static('dist'));
 } else {
   app.use('/assets', express.static('build'));
 }
