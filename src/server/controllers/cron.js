@@ -8,6 +8,10 @@ const times = [
   '0 13 * * *'
 ];
 
+exports.status = (req, res) => {
+  res.json({ success: true, data: { isRunning: scheduler.isRunning() }});
+}
+
 exports.start = async (req, res, next) => {
   try {
     await scheduler.schedule(times, async () => {
