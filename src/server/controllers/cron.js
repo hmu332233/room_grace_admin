@@ -31,3 +31,12 @@ exports.stop = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.post = async (req, res, next) => {
+  try {
+    const data = await service.cron.post();
+    res.json({ result: true, data });
+  } catch (err) {
+    next(err);
+  }
+}
