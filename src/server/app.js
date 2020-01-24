@@ -1,12 +1,13 @@
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, './.env') });
+
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const config = require('./configs');
-
 mongoose.Promise = global.Promise;
-mongoose.connect(config.MONGO_DB, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_DB, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.once('open', () => {
   console.log('DB connected!');
@@ -15,13 +16,11 @@ db.on('error', err => {
   console.log('DB ERROR:', err);
 });
 
-NODE_ENV = 'development';
-
 // Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-if (NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development') {
   app.use('/', express.static('dist'));
 } else {
   app.use('/assets', express.static('build'));
