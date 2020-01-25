@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const createError = require('http-errors');
 
+const { sendErrorMessage } = require('./utils/slack');
+
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGO_DB, { useNewUrlParser: true });
 const db = mongoose.connection;
@@ -42,6 +44,8 @@ app.use((err, req, res, next) => {
 
   res.locals.message = apiError.message;
   res.locals.error = process.env.NODE_ENV === 'development' ? apiError : {};
+
+  sendErrorMessage(err);
 
   return res.status(apiError.status).json({ message: apiError.message });
 });
