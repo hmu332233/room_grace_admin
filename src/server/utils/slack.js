@@ -13,3 +13,10 @@ exports.sendErrorMessage = err => {
   const message = `${title}\n${body}`;
   return this.sendMessage({ message });
 };
+
+exports.sendCompleteMessage = () => {
+  const title = '정상적으로 포스팅되었습니다.';
+  const body = `https://www.jnu.ac.kr/WebApp/web/HOM/COM/Board/board.aspx?boardID=10`;
+  const message = `${title}\n${body}`;
+  return this.sendMessage({ message });
+};
