@@ -1,16 +1,11 @@
 const scheduler = require('../utils/scheduler');
 const service = require('../services');
 
-const times = [
-  '0 1 * * *',
-  '0 5 * * *',
-  '0 9 * * *',
-  '0 13 * * *'
-];
+const times = ['0 1 * * *', '0 5 * * *', '0 9 * * *', '0 13 * * *'];
 
 exports.status = (req, res) => {
-  res.json({ success: true, data: { isRunning: scheduler.isRunning() }});
-}
+  res.json({ success: true, data: { isRunning: scheduler.isRunning() } });
+};
 
 exports.start = async (req, res, next) => {
   try {
@@ -37,6 +32,7 @@ exports.post = async (req, res, next) => {
     const data = await service.cron.post();
     res.json({ result: true, data });
   } catch (err) {
+    console.log(err);
     next(err);
   }
-}
+};

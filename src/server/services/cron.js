@@ -5,6 +5,12 @@ const { sendCompleteMessage } = require('../utils/slack');
 exports.post = async () => {
   const { userId, userPw, title, contents } = await CronContents.findFirst();
   const result = await jnuPoster.post({ title, contents, id: userId, pw: userPw });
-  sendCompleteMessage();
+
+  try {
+    sendCompleteMessage();
+  } catch (err) {
+    console.log(err);
+  }
+
   return result;
 };
