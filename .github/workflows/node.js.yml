@@ -10,6 +10,11 @@ jobs:
   post:
 
     runs-on: ubuntu-latest
+    
+    env:
+      MONGO_DB: ${{ secrets.MONGO_DB }}
+      NODE_ENV: ${{ secrets.NODE_ENV }}
+      SLACK_HOOK_URL: ${{ secrets.SLACK_HOOK_URL }}
 
     strategy:
       matrix:
