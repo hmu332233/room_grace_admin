@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-const LOGIN_URL = 'https://portal.jnu.ac.kr/Common/Login/Login.aspx';
+const LOGIN_URL = 'https://sso.jnu.ac.kr/Idp/Login.aspx';
 const WRITE_PAGE_URL = 'http://www.jnu.ac.kr/WebApp/web/HOM/COM/Board/board.aspx?boardID=10&bbsMode=write&page=1';
 const USER_NAME = '원룸그레이스';
 
@@ -10,17 +10,19 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
 
   // 로그인
   await page.goto(LOGIN_URL);
+  await page.waitFor(3000);
   await page.evaluate(
     (id, pw) => {
-      document.getElementById('ContentPlaceHolder1_LoginUser_UserName').value = id;
-      document.getElementById('ContentPlaceHolder1_LoginUser_Password').value = pw;
-      document.getElementById('ContentPlaceHolder1_LoginUser_LoginButton').click();
+      document.getElementById('userId').value = id;
+      document.getElementById('userPwd').value = pw;
+      document.getElementById('btnLoginButton').click();
     },
     id,
     pw
   );
   await page.waitFor(3000);
 
+  console.log('글 작성 페이지');
   // 글 작성
   await page.goto(WRITE_PAGE_URL);
 
