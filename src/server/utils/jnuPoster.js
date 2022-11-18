@@ -43,10 +43,12 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
 
   // 소스코드 클릭
   await page.click('#cke_18');
+  console.log('소스코드 클릭');
 
-  await page.waitFor(500);
+  await page.waitFor(1000);
 
   // 소스코드 작성
+  console.log('소스코드 작성');
   await page.evaluate(contents => {
     document.querySelector('#cke_1_contents > textarea').value = contents;
   }, contents);
