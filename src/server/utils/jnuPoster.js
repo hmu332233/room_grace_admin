@@ -45,7 +45,7 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
   await page.click('#cke_18');
   console.log('소스코드 클릭');
 
-  await page.waitFor(1000);
+  await page.waitFor(3000);
 
   // 소스코드 작성
   console.log('소스코드 작성');
