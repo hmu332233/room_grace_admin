@@ -42,7 +42,9 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
   await page.waitFor(1000);
 
   // 소스코드 클릭
-  await page.click('#cke_18');
+  await page.evaluate(() => {
+    document.querySelector('#cke_18').click();
+  });
   console.log('소스코드 클릭');
 
   await page.waitFor(3000);
