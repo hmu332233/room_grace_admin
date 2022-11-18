@@ -10,6 +10,7 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
 
   // 로그인
   await page.goto(LOGIN_URL);
+  console.log('로그인 페이지 접속');
   await page.waitFor(3000);
   await page.evaluate(
     (id, pw) => {
@@ -20,13 +21,16 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
     id,
     pw
   );
+  console.log('로그인 중');
   await page.waitFor(3000);
 
-  console.log('글 작성 페이지');
   // 글 작성
   await page.goto(WRITE_PAGE_URL);
+  console.log('글 작성 페이지');
+  await page.waitFor(3000);
 
   // 제목과 이름 작성
+  console.log('내용 작성 시작');
   await page.evaluate(
     (title, userName) => {
       document.getElementById('ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_txt_boardTitle').value = title;
@@ -46,6 +50,8 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
   await page.evaluate(contents => {
     document.querySelector('#cke_1_contents > textarea').value = contents;
   }, contents);
+
+  console.log('내용 작성 완료');
 
   // 작성 완료 버튼 클릭 및 브라우저 종료
   await page.click('#ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_btnSave');
