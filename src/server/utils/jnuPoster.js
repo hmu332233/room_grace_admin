@@ -27,7 +27,7 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
   // 글 작성
   await page.goto(WRITE_PAGE_URL);
   console.log('글 작성 페이지');
-  await page.waitFor(3000);
+  await page.waitFor(5000);
 
   // 제목과 이름 작성
   console.log('내용 작성 시작');
