@@ -64,3 +64,10 @@ typings/
 dist
 
 src/server/configs
+
+# Yarn PnP
+.pnp.*
+.yarn/
+
+# Test files
+test-playwright.js
