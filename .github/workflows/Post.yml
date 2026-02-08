@@ -37,4 +37,23 @@ jobs:
         cache: 'yarn'
     - run: yarn
     - run: npx playwright install --with-deps chromium
-    - run: yarn post
+
+    - name: Run post with retry
+      run: |
+        MAX_ATTEMPTS=3
+        DELAY=30
+        for i in $(seq 1 $MAX_ATTEMPTS); do
+          echo "::group::Attempt $i of $MAX_ATTEMPTS"
+          if yarn post; then
+            echo "::endgroup::"
+            echo "✅ Success on attempt $i"
+            exit 0
+          fi
+          echo "::endgroup::"
+          if [ $i -lt $MAX_ATTEMPTS ]; then
+            echo "⏳ Failed, waiting ${DELAY}s before retry..."
+            sleep $DELAY
+          fi
+        done
+        echo "❌ All $MAX_ATTEMPTS attempts failed"
+        exit 1
