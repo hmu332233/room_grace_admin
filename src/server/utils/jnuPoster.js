@@ -19,8 +19,17 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
   await page.waitForTimeout(3000);
 
   // 글 작성
-  await page.goto(WRITE_PAGE_URL);
-  console.log('글 작성 페이지');
+  const response = await page.goto(WRITE_PAGE_URL);
+  console.log('글 작성 페이지:', response.status());
+
+  // 리다이렉트 후 최종 URL 확인 및 페이지 로드 대기
+  await page.waitForLoadState('networkidle');
+  const currentUrl = page.url();
+  console.log('최종 도착 URL:', currentUrl);
+
+  // 글 작성 페이지의 필수 요소가 로드될 때까지 대기
+  await page.waitForSelector('#ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_txt_boardTitle');
+  console.log('글 작성 페이지 로드 완료');
 
   // 제목과 이름 작성
   console.log('내용 작성 시작');
