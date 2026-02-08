@@ -12,52 +12,34 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
   await page.goto(LOGIN_URL);
   console.log('로그인 페이지 접속');
   await page.waitForTimeout(3000);
-  await page.evaluate(
-    ([id, pw]) => {
-      document.getElementById('userId').value = id;
-      document.getElementById('userPwd').value = pw;
-      document.getElementById('btnLoginButton').click();
-    },
-    [id, pw]
-  );
+  await page.fill('#userId', id);
+  await page.fill('#userPwd', pw);
+  await page.click('#btnLoginButton');
   console.log('로그인 중');
   await page.waitForTimeout(3000);
 
   // 글 작성
   await page.goto(WRITE_PAGE_URL);
   console.log('글 작성 페이지');
-  await page.waitForTimeout(5000);
 
   // 제목과 이름 작성
   console.log('내용 작성 시작');
-  await page.evaluate(
-    ([title, userName]) => {
-      document.getElementById('ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_txt_boardTitle').value = title;
-      document.getElementById('ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_txt_boardWriter').value = userName;
-    },
-    [title, userName]
-  );
-  await page.waitForTimeout(3000);
+  await page.fill('#ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_txt_boardTitle', title);
+  await page.fill('#ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_txt_boardWriter', userName);
 
   // 소스코드 클릭
-  await page.evaluate(() => {
-    document.querySelector('#cke_18').click();
-  });
+  await page.click('#cke_18');
   console.log('소스코드 클릭');
-
-  await page.waitForTimeout(1000);
 
   // 소스코드 작성
   console.log('소스코드 작성');
-  await page.evaluate(contents => {
-    document.querySelector('#cke_1_contents > textarea').value = contents;
-  }, contents);
+  await page.fill('#cke_1_contents > textarea', contents);
 
   console.log('내용 작성 완료');
 
   // 작성 완료 버튼 클릭 및 브라우저 종료
   await page.click('#ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_btnSave');
-  await page.waitForTimeout(1000);
+  await page.waitForLoadState('load');
   await browser.close();
 
   return true;
