@@ -6,8 +6,7 @@ const mongoose = require('mongoose');
 
 const { sendErrorMessage } = require('./utils/slack');
 
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGO_DB, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_DB);
 const db = mongoose.connection;
 db.once('open', async () => {
   console.log('DB connected!');
