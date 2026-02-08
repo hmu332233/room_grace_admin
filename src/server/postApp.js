@@ -14,5 +14,5 @@ db.once('open', async () => {
   db.close();
 });
 db.on('error', err => {
-  console.log('DB ERROR:', err);
+  console.log('DB ERROR:', err.message);
 });

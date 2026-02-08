@@ -9,7 +9,7 @@ exports.post = async () => {
   try {
     sendCompleteMessage();
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
 
   return result;

@@ -24,8 +24,7 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
 
   // 리다이렉트 후 최종 URL 확인 및 페이지 로드 대기
   await page.waitForLoadState('networkidle');
-  const currentUrl = page.url();
-  console.log('최종 도착 URL:', currentUrl);
+  console.log('글 작성 페이지 리다이렉트 완료');
 
   // 글 작성 페이지의 필수 요소가 로드될 때까지 대기
   await page.waitForSelector('#ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_txt_boardTitle');
