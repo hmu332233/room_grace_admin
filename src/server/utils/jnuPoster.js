@@ -25,7 +25,7 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
   // 제목과 이름 작성
   console.log('내용 작성 시작');
   await page.fill('#ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_txt_boardTitle', title);
-  await page.fill('#ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_txt_boardWriter', userName);
+  // await page.fill('#ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_txt_boardWriter', userName);
 
   // 소스코드 클릭
   await page.click('#cke_18');
