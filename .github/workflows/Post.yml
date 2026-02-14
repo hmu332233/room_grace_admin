@@ -62,6 +62,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: error-screenshot
-          path: error-screenshot.png
+          path: |
+            error-screenshot.png
+            error-console.log
           retention-days: 3
           if-no-files-found: ignore

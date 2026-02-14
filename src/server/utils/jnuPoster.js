@@ -1,4 +1,5 @@
 const { chromium } = require('playwright');
+const fs = require('fs');
 
 const LOGIN_URL = 'https://sso.jnu.ac.kr/Idp/Login.aspx';
 const WRITE_PAGE_URL = 'http://www.jnu.ac.kr/WebApp/web/HOM/COM/Board/board.aspx?boardID=10&bbsMode=write&page=1';
@@ -7,6 +8,12 @@ const USER_NAME = '원룸그레이스';
 exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
   const browser = await chromium.launch();
   const page = await browser.newPage();
+
+  // 브라우저 콘솔 로그 수집
+  const consoleLogs = [];
+  page.on('console', msg => {
+    consoleLogs.push(`[${msg.type()}] ${msg.text()}`);
+  });
 
   try {
     // 로그인
@@ -17,18 +24,25 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
     await page.fill('#userPwd', pw);
     await page.click('#btnLoginButton');
     console.log('로그인 중');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(10000);
 
-    // 글 작성
-    const response = await page.goto(WRITE_PAGE_URL);
-    console.log('글 작성 페이지:', response.status());
+    // 글 작성 페이지 이동 (최대 2회 시도)
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      if (attempt > 1) console.log('글 작성 페이지 이동 실패, 재시도:', page.url());
+      const response = await page.goto(WRITE_PAGE_URL);
+      console.log('글 작성 페이지:', response.status());
+      await page.waitForLoadState('networkidle');
+      if (page.url().includes('jnu.ac.kr')) break;
+    }
 
-    // 리다이렉트 후 최종 URL 확인 및 페이지 로드 대기
-    await page.waitForLoadState('networkidle');
+    if (!page.url().includes('jnu.ac.kr')) {
+      throw new Error(`글 작성 페이지 이동 실패: ${page.url()}`);
+    }
+
     console.log('글 작성 페이지 리다이렉트 완료');
 
     // 글 작성 페이지의 필수 요소가 로드될 때까지 대기
-    await page.waitForSelector('#ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_txt_boardTitle', { timeout: 60000 });
+    await page.waitForSelector('#ctl00_ctl00_ContentPlaceHolder1_PageContent_ctl00_txt_boardTitle', { timeout: 10000 });
     console.log('글 작성 페이지 로드 완료');
 
     // 제목과 이름 작성
@@ -54,6 +68,8 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
   } catch (err) {
     // 실패 시 스크린샷 저장 (디버깅용)
     await page.screenshot({ path: 'error-screenshot.png', fullPage: true }).catch(() => {});
+    // 브라우저 콘솔 로그 저장 (디버깅용)
+    fs.writeFileSync('error-console.log', consoleLogs.join('\n'));
     console.error('게시 실패:', err.message);
     console.error('현재 URL:', page.url());
     throw err;
