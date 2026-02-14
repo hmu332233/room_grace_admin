@@ -6,16 +6,15 @@ name: Post
 on:
   workflow_dispatch:
   schedule:
-  - cron: '0 1 * * *'
-  - cron: '0 5 * * *'
-  - cron: '0 9 * * *'
-  - cron: '0 13 * * *'
+    - cron: '0 1 * * *'
+    - cron: '0 5 * * *'
+    - cron: '0 9 * * *'
+    - cron: '0 13 * * *'
 
 jobs:
   post:
-
     runs-on: ubuntu-latest
-    
+
     env:
       MONGO_DB: ${{ secrets.MONGO_DB }}
       NODE_ENV: ${{ secrets.NODE_ENV }}
@@ -27,33 +26,42 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - name: Checkout main branch
-      uses: actions/checkout@v4
+      - name: Checkout main branch
+        uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
-    - run: yarn
-    - run: npx playwright install --with-deps chromium
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - run: yarn
+      - run: npx playwright install --with-deps chromium
 
-    - name: Run post with retry
-      run: |
-        MAX_ATTEMPTS=3
-        DELAY=30
-        for i in $(seq 1 $MAX_ATTEMPTS); do
-          echo "::group::Attempt $i of $MAX_ATTEMPTS"
-          if yarn post; then
+      - name: Run post with retry
+        run: |
+          MAX_ATTEMPTS=3
+          DELAY=30
+          for i in $(seq 1 $MAX_ATTEMPTS); do
+            echo "::group::Attempt $i of $MAX_ATTEMPTS"
+            if yarn post; then
+              echo "::endgroup::"
+              echo "✅ Success on attempt $i"
+              exit 0
+            fi
             echo "::endgroup::"
-            echo "✅ Success on attempt $i"
-            exit 0
-          fi
-          echo "::endgroup::"
-          if [ $i -lt $MAX_ATTEMPTS ]; then
-            echo "⏳ Failed, waiting ${DELAY}s before retry..."
-            sleep $DELAY
-          fi
-        done
-        echo "❌ All $MAX_ATTEMPTS attempts failed"
-        exit 1
+            if [ $i -lt $MAX_ATTEMPTS ]; then
+              echo "⏳ Failed, waiting ${DELAY}s before retry..."
+              sleep $DELAY
+            fi
+          done
+          echo "❌ All $MAX_ATTEMPTS attempts failed"
+          exit 1
+
+      - name: Upload error screenshot
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: error-screenshot
+          path: error-screenshot.png
+          retention-days: 3
+          if-no-files-found: ignore
