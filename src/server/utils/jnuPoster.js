@@ -2,7 +2,7 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 
 const LOGIN_URL = 'https://sso.jnu.ac.kr/Idp/Login.aspx';
-const WRITE_PAGE_URL = 'http://www.jnu.ac.kr/WebApp/web/HOM/COM/Board/board.aspx?boardID=10&bbsMode=write&page=1';
+const WRITE_PAGE_URL = 'https://www.jnu.ac.kr/WebApp/web/HOM/COM/Board/board.aspx?boardID=10&bbsMode=write&page=1';
 const USER_NAME = '원룸그레이스';
 
 exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
