@@ -4,8 +4,6 @@ const service = require('./services');
 
 const mongoose = require('mongoose');
 
-const { sendErrorMessage } = require('./utils/slack');
-
 mongoose.connect(process.env.MONGO_DB);
 const db = mongoose.connection;
 db.once('open', async () => {

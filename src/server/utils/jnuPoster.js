@@ -6,7 +6,7 @@ const WRITE_PAGE_URL = 'https://www.jnu.ac.kr/WebApp/web/HOM/COM/Board/board.asp
 const USER_NAME = '원룸그레이스';
 
 exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({ headless: false, channel: 'chrome' });
   const page = await browser.newPage();
 
   // 브라우저 콘솔 로그 수집
@@ -20,11 +20,12 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
     await page.goto(LOGIN_URL);
     console.log('로그인 페이지 접속');
     await page.waitForTimeout(3000);
-    await page.fill('#userId', id);
-    await page.fill('#userPwd', pw);
-    await page.click('#btnLoginButton');
+    await page.click('#loginTabList > li:nth-child(3) > a');
+    await page.fill('#mfaUserIdOtp', id);
+    await page.fill('#mfaUserPwdOtp', pw);
+    await page.click('#btnOtpAuthSubmit');
     console.log('로그인 중');
-    await page.waitForTimeout(10000);
+    await page.waitForTimeout(20000);
 
     // 글 작성 페이지 이동 (최대 2회 시도)
     for (let attempt = 1; attempt <= 2; attempt++) {

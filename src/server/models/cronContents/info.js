@@ -1,19 +1,24 @@
 const mongoose = require('mongoose');
 
-const CONSTANTS = {
-};
+const CONSTANTS = {};
 
 const schema = mongoose.Schema({
-  userId: { 
+  userId: {
     type: String,
   },
-  userPw: { 
+  userPw: {
     type: String,
   },
-  title: { 
+  title: {
     type: String,
   },
-  contents: { 
+  contents: {
+    type: String,
+  },
+  gmailUser: {
+    type: String,
+  },
+  gmailAppPassword: {
     type: String,
   },
 });
@@ -22,5 +27,5 @@ const model = mongoose.model('cron_content', schema);
 
 module.exports = {
   db: { cronContents: model },
-  CONSTANTS
+  CONSTANTS,
 };

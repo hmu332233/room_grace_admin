@@ -18,7 +18,8 @@ jobs:
     env:
       MONGO_DB: ${{ secrets.MONGO_DB }}
       NODE_ENV: ${{ secrets.NODE_ENV }}
-      SLACK_HOOK_URL: ${{ secrets.SLACK_HOOK_URL }}
+      GMAIL_USER: ${{ secrets.GMAIL_USER }}
+      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
 
     strategy:
       matrix:

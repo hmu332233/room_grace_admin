@@ -26,10 +26,9 @@ function extractOtpFromSource(source) {
   return null;
 }
 
-async function fetchOtpFromGmail(sentAt) {
-  const { GMAIL_USER, GMAIL_APP_PASSWORD } = process.env;
-  if (!GMAIL_USER || !GMAIL_APP_PASSWORD) {
-    throw new Error('GMAIL_USER / GMAIL_APP_PASSWORD 환경변수가 필요합니다');
+async function fetchOtpFromGmail(sentAt, gmailUser, gmailAppPassword) {
+  if (!gmailUser || !gmailAppPassword) {
+    throw new Error('gmailUser / gmailAppPassword 값이 필요합니다');
   }
 
   const deadline = Date.now() + OTP_POLL_TIMEOUT_MS;
@@ -39,7 +38,7 @@ async function fetchOtpFromGmail(sentAt) {
       host: 'imap.gmail.com',
       port: 993,
       secure: true,
-      auth: { user: GMAIL_USER, pass: GMAIL_APP_PASSWORD },
+      auth: { user: gmailUser, pass: gmailAppPassword },
       logger: false,
     });
 
@@ -68,7 +67,7 @@ async function fetchOtpFromGmail(sentAt) {
   throw new Error('OTP 메일을 시간 내에 받지 못했습니다');
 }
 
-async function passMfa(page) {
+async function passMfa(page, gmailUser, gmailAppPassword) {
   console.log('MFA 페이지 감지, 이메일 OTP 흐름 시작');
   await page.click('#btnOtpMethodSmsEmail');
   await page.waitForSelector('#btnSendOtpEmailModal', { state: 'visible' });
@@ -76,7 +75,7 @@ async function passMfa(page) {
   await page.click('#btnSendOtpEmailModal');
   console.log('OTP 이메일 발송 요청');
 
-  const otp = await fetchOtpFromGmail(sentAt);
+  const otp = await fetchOtpFromGmail(sentAt, gmailUser, gmailAppPassword);
   console.log('OTP 수신, 입력 진행');
 
   await page.waitForSelector('input[type=tel].otp-digit');
@@ -97,7 +96,7 @@ async function passMfa(page) {
   console.log('MFA 통과');
 }
 
-exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
+exports.post = async ({ title, userName = USER_NAME, contents, id, pw, gmailUser, gmailAppPassword }) => {
   const browser = await chromium.launch({ headless: false, channel: 'chrome' });
   const page = await browser.newPage();
 
@@ -118,7 +117,7 @@ exports.post = async ({ title, userName = USER_NAME, contents, id, pw }) => {
     await page.waitForLoadState('networkidle');
 
     if (page.url().includes('/mfa/default.aspx')) {
-      await passMfa(page);
+      await passMfa(page, gmailUser, gmailAppPassword);
     }
 
     for (let attempt = 1; attempt <= 2; attempt++) {

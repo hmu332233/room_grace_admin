@@ -8,8 +8,7 @@
     "build": "rm -rf build;parcel build src/client/index.html -d build --public-url ./assets",
     "start:server": "node src/server/app.js",
     "prettier": "prettier --config .prettierrc",
-    "post": "node src/server/postApp.js",
-    "post:v2": "node src/server/postAppV2.js"
+    "post": "node src/server/postApp.js"
   },
   "husky": {
     "hooks": {
