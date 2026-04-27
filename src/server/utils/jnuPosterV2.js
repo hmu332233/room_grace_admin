@@ -97,7 +97,7 @@ async function passMfa(page, gmailUser, gmailAppPassword) {
 }
 
 exports.post = async ({ title, userName = USER_NAME, contents, id, pw, gmailUser, gmailAppPassword }) => {
-  const browser = await chromium.launch({ headless: false, channel: 'chrome' });
+  const browser = await chromium.launch();
   const page = await browser.newPage();
 
   const consoleLogs = [];
