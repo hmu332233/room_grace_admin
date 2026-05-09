@@ -8,7 +8,9 @@
     "build": "rm -rf build;parcel build src/client/index.html -d build --public-url ./assets",
     "start:server": "node src/server/app.js",
     "prettier": "prettier --config .prettierrc",
-    "post": "node src/server/postApp.js"
+    "post": "node src/server/postApp.js",
+    "check:post-exists": "node src/server/checkPostExistsApp.js",
+    "test:check-post-title": "node src/server/checkPostTitle.test.js"
   },
   "husky": {
     "hooks": {

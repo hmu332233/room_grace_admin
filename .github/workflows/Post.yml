@@ -5,6 +5,7 @@ name: Post
 
 on:
   workflow_dispatch:
+  workflow_call:
   # schedule:
   #  - cron: '0 1 * * *'
   #  - cron: '0 5 * * *'
